@@ -64,10 +64,10 @@ if [ "$install_zsh" = true ]; then
 
         echo "Installing oh-my-zsh"
         su - $SUDO_USER -c '0>/dev/null sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"' &>/dev/null
+        su - $SUDO_USER -c 'echo "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> ~/.zshrc'
     fi
 fi
 
-## need to reboot
 # static ip
 cp raspbian_conf/dhcpcd.conf /etc/dhcpcd.conf
 if [ "$static_ip" = true ]; then

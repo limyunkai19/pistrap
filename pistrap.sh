@@ -27,7 +27,7 @@ echo -e "timezone:\t$timezone"
 echo -ne "install zsh:\t" && ( [ "$install_zsh" = true ] && echo "yes" || echo "no" )
 echo -ne "static ip:\t" && ( [ "$static_ip" = true ] && echo "yes" || echo "no" )
 if [ "$static_ip" = true ]; then
-    echo "    interface $interface"
+    echo "    interface $static_interface"
     echo "    static ip_address=$static_ip_address"
     echo "    static routers=$static_routers"
     echo "    static domain_name_servers=$static_dns"
@@ -73,7 +73,7 @@ cp raspbian_conf/dhcpcd.conf /etc/dhcpcd.conf
 if [ "$static_ip" = true ]; then
     echo "Configuring static ip address"
     metric=100
-    for int in $interface; do
+    for int in $static_interface; do
         echo "interface $int" >> /etc/dhcpcd.conf
         echo "metric $metric" >> /etc/dhcpcd.conf
         echo "static ip_address=$static_ip_address" >> /etc/dhcpcd.conf

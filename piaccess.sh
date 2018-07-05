@@ -32,6 +32,8 @@ if [ "$1" = "--disable" ]; then
     # stop related service
     systemctl stop hostapd
     systemctl stop dnsmasq
+    systemctl disable hostapd &>/dev/null
+    systemctl disable dnsmasq &>/dev/null
 
     # revert ip forwarding and routing for security
     sed -i '/net.ipv4.ip_forward=/c\net.ipv4.ip_forward=0' /etc/sysctl.conf
@@ -125,6 +127,8 @@ echo "Configuration done, restarting dhcp service and hostapd service"
 service dhcpcd restart &>/dev/null
 systemctl restart hostapd
 systemctl restart dnsmasq
+systemctl enable hostapd &>/dev/null
+systemctl enable dnsmasq &>/dev/null
 systemctl daemon-reload
 
 # setup IP packet forwarding and routing

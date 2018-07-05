@@ -25,7 +25,7 @@ echo -ne "enable ssh:\t" && ( [ "$enable_ssh" = true ] && echo "yes" || echo "no
 echo -e "locale:\t\t$locale"
 echo -e "timezone:\t$timezone"
 echo -ne "install zsh:\t" && ( [ "$install_zsh" = true ] && echo "yes" || echo "no" )
-echo -ne "static ip:\t" && ( [ "$static_ip" = true ] && echo "yes" || echo "no" )
+echo -ne "static ip:\t" && ( [ "$static_ip" = true ] && echo "yes" || echo "no (using DHCP)" )
 if [ "$static_ip" = true ]; then
     echo "    interface $static_interface"
     echo "    static ip_address=$static_ip_address"

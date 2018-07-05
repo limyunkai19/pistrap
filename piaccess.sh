@@ -65,7 +65,7 @@ echo -e "ssid:\t$ssid"
 echo -e "psk:\t$psk"
 echo ""
 echo -e "internet_interface:\t\t\t$internet_interface"
-echo -ne "static_ip_on_internet_interface:\t" && ( [ "$static_ip_on_internet_interface" = true ] && echo "yes" || echo "no" )
+echo -ne "static_ip_on_internet_interface:\t" && ( [ "$static_ip_on_internet_interface" = true ] && echo "yes" || echo "no (using DHCP)" )
 echo ""
 echo -e "ap_interface:\t\t$ap_interface"
 echo -e "interface_ip:\t\t$interface_ip"
@@ -79,12 +79,10 @@ then
     exit 1
 fi
 
-echo "apt-get update"
-apt-get update &>/dev/null
-
 # install prerequisite
 if ! (dpkg -l | grep -q dnsmasq) || ! (dpkg -l | grep -q hostapd); then
     echo "Installing dependency: dnsmasq hostapd"
+    apt-get update &>/dev/null
     apt-get install -y dnsmasq hostapd &>/dev/null
 fi
 

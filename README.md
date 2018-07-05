@@ -28,7 +28,7 @@ static_routers | the default gateway of the network | the IP address of the defa
 static_dns | the DNS server for you Raspberry PI | the DNS IP address, for example, `192.168.1.1`. *usually* the DNS server will be same as the gateway, if gateway does not work, try use Google DNS `8.8.8.8` | `0.0.0.0`
 **Pi Access Point:** <td colspan="2"> configure your Raspberry Pi as a access point (WiFi Hotspot) that is able to redirect Internet traffic to and from WiFi interface and Ethernet interface. Configure the following parameters and use the command `sudo ./piaccess.sh` to configure your Pi as a access point and use `sudo ./piaccess.sh --disable` to disable it </td> |
 ssid | set the SSID of your access point | maximum of 32 character | `raspberrypi`
-psk | set the password for your access point | 8 to 63 character | `mysupersecretpassword`
+psk | set the password for your access point | 8 to 63 character | `secretpassword`
 internet_interface | the interface which your Raspberry Pi could obtain Internet access | a Linux network interface name, for example `eth0`, `wlan1`. Leave as default if you are not sure | `eth0`
 static_ip_on_<br>internet_interface | use static IP define by `static_ip_address`, `static_routers` and `static_dns` option on the Internet interface | `true` (use static IP on Internet interface) or `false` (use default DHCP on Internet interface) | `false`
 ap_interface | the wireless interface which your Raspberry Pi will act as a access point | a Linux network interface name, for example `eth0`, `wlan1`. Leave as default if you are not sure | `wlan0`

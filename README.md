@@ -26,7 +26,17 @@ static_interface | the interface to enable static IP on | the interface name wit
 static_ip_address | the static IP address to configure | the format is `ipv4/subnet`, for example, `192.168.1.30/24`. If you are not familiar with IP, *usually* your home router will have a subnet mask of `/24` and the first 3 octets (number) are usually `192.168.0.x`, `192.168.1.x` or `192.168.2.x`. You need to figure out which first 3 number of your network using a computer in the same network. Use `ipconfig` in Windows *cmd* or `ifconfig` in macOS, Linux *terminal*. Then, set the `x` be a number between `20` and `250` | `0.0.0.0/24`
 static_routers | the default gateway of the network | the IP address of the default gateway, for example, `192.168.1.1`. You can figure out the default gateway using a computer in the same network. Use `ipconfig` in Windows *cmd*, `route -n get default` in macOS *terminal*, <code>ip route &#124; grep default</code> in Linux *terminal* to figure out your gateway IP, it *usually* ends with `.1` or `.254` | `0.0.0.0`
 static_dns | the DNS server for you Raspberry PI | the DNS IP address, for example, `192.168.1.1`. *usually* the DNS server will be same as the gateway, if gateway does not work, try use Google DNS `8.8.8.8` | `0.0.0.0`
-**Pi Access Point:** <td colspan="2"> configure your Raspberry Pi as a access point (WiFi Hotspot) that is able to redirect Internet traffic to and from WiFi interface and Ethernet interface. Configure the following parameters and use the command `sudo ./piaccess.sh` to configure your Pi as a access point and use `sudo ./piaccess.sh --disable` to disable it </td> |
+
+<br>
+<dl>
+    <strong>Pi Access Point:</strong>
+    <dd>
+        configure your Raspberry Pi as a access point (WiFi Hotspot) that is able to redirect Internet traffic to and from WiFi interface and Ethernet interface. Configure the following parameters and use the command <code>sudo ./piaccess.sh</code> to configure your Pi as a access point and use <code>sudo ./piaccess.sh --disable</code> to disable it
+    </dd>
+</dl>
+
+Setting    | Explanation | Acceptable Value | Default Value
+-----------|-------------|------------------|--------------
 ssid | set the SSID of your access point | maximum of 32 character | `raspberrypi`
 psk | set the password for your access point | 8 to 63 character | `secretpassword`
 internet_interface | the interface which your Raspberry Pi could obtain Internet access | a Linux network interface name, for example `eth0`, `wlan1`. Leave as default if you are not sure | `eth0`

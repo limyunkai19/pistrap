@@ -46,10 +46,10 @@ if [ "$1" = "--disable" ]; then
         metric=100
         for int in $static_interface; do
             echo "interface $int" >> /etc/dhcpcd.conf
-            echo "metric $metric" >> /etc/dhcpcd.conf
-            echo "static ip_address=$static_ip_address" >> /etc/dhcpcd.conf
-            echo "static routers=$static_routers" >> /etc/dhcpcd.conf
-            echo "static domain_name_servers=$static_dns" >> /etc/dhcpcd.conf
+            echo "    metric $metric" >> /etc/dhcpcd.conf
+            echo "    static ip_address=$static_ip_address" >> /etc/dhcpcd.conf
+            echo "    static routers=$static_routers" >> /etc/dhcpcd.conf
+            echo "    static domain_name_servers=$static_dns" >> /etc/dhcpcd.conf
             echo "" >> /etc/dhcpcd.conf
 
             metric=$((metric + 100))
@@ -66,6 +66,12 @@ echo -e "psk:\t$psk"
 echo ""
 echo -e "internet_interface:\t\t\t$internet_interface"
 echo -ne "static_ip_on_internet_interface:\t" && ( [ "$static_ip_on_internet_interface" = true ] && echo "yes" || echo "no (using DHCP)" )
+if [ "$static_ip_on_internet_interface" = true ]; then
+    echo "    interface $internet_interface"
+    echo "    static ip_address=$static_ip_address"
+    echo "    static routers=$static_routers"
+    echo "    static domain_name_servers=$static_dns"
+fi
 echo ""
 echo -e "ap_interface:\t\t$ap_interface"
 echo -e "interface_ip:\t\t$interface_ip"
@@ -92,6 +98,17 @@ echo "interface $ap_interface" >> /etc/dhcpcd.conf
 echo "    static ip_address=$interface_ip/24" >> /etc/dhcpcd.conf
 echo "    nohook wpa_supplicant" >> /etc/dhcpcd.conf
 echo "    denyinterfaces $ap_interface" >> /etc/dhcpcd.conf
+echo "" >> /etc/dhcpcd.conf
+
+
+# configure static IP for Internet interface
+if [ "$static_ip_on_internet_interface" = true ]; then
+    echo "interface $internet_interface" >> /etc/dhcpcd.conf
+    echo "    static ip_address=$static_ip_address" >> /etc/dhcpcd.conf
+    echo "    static routers=$static_routers" >> /etc/dhcpcd.conf
+    echo "    static domain_name_servers=$static_dns" >> /etc/dhcpcd.conf
+    echo "" >> /etc/dhcpcd.conf
+fi
 
 # configure dnsmasq DHCP server
 cp raspbian_conf/dnsmasq.conf /etc/dnsmasq.conf

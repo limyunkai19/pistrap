@@ -68,6 +68,13 @@ if [ "$install_zsh" = true ]; then
     fi
 fi
 
+# install rsub, remote sublime text
+if [ "$install_rsub" = true ] && ! which rsub; then
+    echo "Installing rsub"
+    wget -O /usr/local/bin/rsub https://raw.github.com/aurora/rmate/master/rmate &>/dev/null
+    chmod a+x /usr/local/bin/rsub
+fi
+
 # static ip
 cp raspbian_conf/dhcpcd.conf /etc/dhcpcd.conf
 if [ "$static_ip" = true ]; then

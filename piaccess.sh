@@ -10,8 +10,55 @@ fi
 CFG_FILE=${BASH_SOURCE%/*}/pistrap.conf
 eval $(sed -r '/[^=]+=[^=]+/!d;s/\s+=\s+/=/g;s/\r//g' "$CFG_FILE")
 
+# check if disable
+if [ "$1" = "--disable" ]; then
+    # user confirmation
+    echo "Disable Raspberry Pi Access Point"
+    echo -ne "static ip:\t" && ( [ "$static_ip" = true ] && echo "yes" || echo "no (using DHCP)" )
+    if [ "$static_ip" = true ]; then
+        echo "    interface $static_interface"
+        echo "    static ip_address=$static_ip_address"
+        echo "    static routers=$static_routers"
+        echo "    static domain_name_servers=$static_dns"
+    fi
+    echo
+    read -p "Revert by using the above setting, do you want to continue [Y/n]? " -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        exit 1
+    fi
+
+    # stop related service
+    systemctl stop hostapd
+    systemctl stop dnsmasq
+
+    # revert ip forwarding and routing for security
+    sed -i '/net.ipv4.ip_forward=/c\net.ipv4.ip_forward=0' /etc/sysctl.conf
+    sed -i "/iptables -t nat -A POSTROUTING/d" /etc/rc.local
+
+    # revert ip and dhcp setting using pistrap.conf
+    cp raspbian_conf/dhcpcd.conf /etc/dhcpcd.conf
+    if [ "$static_ip" = true ]; then
+        echo "Configuring static ip address"
+        metric=100
+        for int in $static_interface; do
+            echo "interface $int" >> /etc/dhcpcd.conf
+            echo "metric $metric" >> /etc/dhcpcd.conf
+            echo "static ip_address=$static_ip_address" >> /etc/dhcpcd.conf
+            echo "static routers=$static_routers" >> /etc/dhcpcd.conf
+            echo "static domain_name_servers=$static_dns" >> /etc/dhcpcd.conf
+            echo "" >> /etc/dhcpcd.conf
+
+            metric=$((metric + 100))
+        done
+    fi
+
+    exit 0
+fi
+
 # user confirmation
-echo "Enable Raspbery Pi Access Point"
+echo "Enable Raspberry Pi Access Point"
 echo -e "ssid:\t$ssid"
 echo -e "psk:\t$psk"
 echo ""

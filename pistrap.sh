@@ -6,8 +6,12 @@ if [ $(id -u) -ne 0 ]; then
   exit 1
 fi
 
+if [ -d ${BASH_SOURCE%/*} ]; then
+    cd ${BASH_SOURCE%/*}
+fi
+
 # read config file
-CFG_FILE=${BASH_SOURCE%/*}/pistrap.conf
+CFG_FILE=pistrap.conf
 eval $(sed -r '/[^=]+=[^=]+/!d;s/\s+=\s+/=/g;s/\r//g' "$CFG_FILE")
 
 # verifying config file

@@ -4,8 +4,6 @@
 
 Raspberry Pi bootstrapping script. A quick way to setup your Pi.
 
-see limyunkai.com for more a more detail installation workflow and usage.
-
 ## Usage
 Change the `pistrap.conf` file according to your desire configuration.
 
@@ -49,3 +47,4 @@ number_of_client | the number of device that is able to connect to your access p
 
 ## To Do
 - [ ] Configure keyboard for GUI user
+- [ ] Research how to setup file and print server

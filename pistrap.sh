@@ -82,10 +82,10 @@ if [ "$static_ip" = true ]; then
     metric=100
     for int in $static_interface; do
         echo "interface $int" >> /etc/dhcpcd.conf
-        echo "metric $metric" >> /etc/dhcpcd.conf
-        echo "static ip_address=$static_ip_address" >> /etc/dhcpcd.conf
-        echo "static routers=$static_routers" >> /etc/dhcpcd.conf
-        echo "static domain_name_servers=$static_dns" >> /etc/dhcpcd.conf
+        echo "    metric $metric" >> /etc/dhcpcd.conf
+        echo "    static ip_address=$static_ip_address" >> /etc/dhcpcd.conf
+        echo "    static routers=$static_routers" >> /etc/dhcpcd.conf
+        echo "    static domain_name_servers=$static_dns" >> /etc/dhcpcd.conf
         echo "" >> /etc/dhcpcd.conf
 
         metric=$((metric + 100))
